@@ -124,6 +124,7 @@
         var provider1 = new firebase.auth.FacebookAuthProvider();
 
         function facebookSignin() {
+            event.preventDefault();
             firebase.auth().signInWithPopup(provider1)
 
                 .then(function (result) {
@@ -139,6 +140,7 @@
         }
 
         function facebookSignout() {
+            event.preventDefault();
             firebase.auth().signOut()
 
                 .then(function () {
