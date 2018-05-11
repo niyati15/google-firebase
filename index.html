@@ -35,7 +35,8 @@
             <button class="btn" id="signUp">Sign Up</button>
             <button class="btn" id="googleBtn">Sign In using google</button>
             <button class="btn" id="googleSignOutBtn">Sign Out using Google</button>
-        </form>
+            <button onclick="facebookSignin()">Facebook Signin</button>
+            <button onclick="facebookSignout()">Facebook Signout</butto </form>
 
     </body>
     <script>
@@ -70,7 +71,7 @@
             var promise = auth.createUserWithEmailAndPassword(email, password);
             // console.log(promise);
         });
-
+        ////signin using google
         $("#googleBtn").click(function (event) {
             event.preventDefault();
             console.log("google called");
@@ -91,6 +92,7 @@
                     console.log(error.message)
                 });
         });
+        ////signout using google
         $("#googleSignOutBtn").click(function (event) {
             event.preventDefault();
 
@@ -102,6 +104,49 @@
                     console.log('Signout Failed')
                 });
         });
+        //////login with facebook
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '366345103857149',
+                xfbml: true,
+                version: 'v2.6'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        var provider = new firebase.auth.FacebookAuthProvider();
+
+function facebookSignin() {
+   firebase.auth().signInWithPopup(provider)
+   
+   .then(function(result) {
+      var token = result.credential.accessToken;
+      var user = result.user;
+		
+      console.log(token)
+      console.log(user)
+   }).catch(function(error) {
+      console.log(error.code);
+      console.log(error.message);
+   });
+}
+
+function facebookSignout() {
+   firebase.auth().signOut()
+   
+   .then(function() {
+      console.log('Signout successful!')
+   }, function(error) {
+      console.log('Signout failed')
+   });
+}
 
 
     </script>
